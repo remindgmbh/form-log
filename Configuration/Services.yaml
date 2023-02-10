@@ -1,0 +1,14 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Remind\FormLog\:
+    resource: '../Classes/*'
+    exclude: '../Classes/Domain/Model/*'
+
+  Remind\FormLog\Command\DeleteLogCommand:
+    tags:
+      - name: "console.command"
+        command: "rmndformlog:deletelog"

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="EXT:rmnd_form_log/Resources/Private/Language/locallang_form.xlf" product-name="rmnd_form_log">
+        <header/>
+        <body>
+            <trans-unit id="formEditor.elements.Form.editor.finishers.Log.label">
+                <source>Log</source>
+            </trans-unit>
+            <trans-unit id="formEditor.elements.Form.finisher.Log.editor.header.label">
+                <source>Log</source>
+            </trans-unit>
+            <trans-unit id="formEditor.elements.Form.finisher.Log.editor.storagePid.label">
+                <source>Storage PID</source>
+            </trans-unit>
+            <trans-unit id="formEditor.elements.Form.finisher.Log.editor.storagePid.button.label">
+                <source>Page</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

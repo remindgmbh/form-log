@@ -1,0 +1,24 @@
+plugin {
+    tx_form.settings.yamlConfigurations {
+        1676013748 = EXT:rmnd_form_log/Configuration/Form/FormSetup.yaml
+    }
+}
+
+module {
+    tx_form.settings.yamlConfigurations {
+        1676013748 = EXT:rmnd_form_log/Configuration/Form/FormSetup.yaml
+    }
+    tx_formlog {
+        view {
+            layoutRootPaths {
+                10 = EXT:rmnd_form_log/Resources/Private/Backend/Layouts/
+            }
+            partialRootPaths {
+                10 = EXT:rmnd_form_log/Resources/Private/Backend/Partials/
+            }
+            templateRootPaths {
+                10 = EXT:rmnd_form_log/Resources/Private/Backend/Templates/
+            }
+        }
+    }
+}

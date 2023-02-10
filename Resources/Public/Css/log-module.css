@@ -1,0 +1,27 @@
+.log-module__entries > table > caption {
+    padding: 0.5rem;
+}
+
+.log-module__entry--even > td {
+    --bs-table-accent-bg: unset !important;
+}
+
+.log-module__entry--even:hover > td {
+    --bs-table-accent-bg: var(--bs-table-hover-bg) !important;
+}
+
+.log-module__data {
+    display: none;
+}
+
+.log-module__data > td {
+    --bs-table-accent-bg: unset !important;
+}
+
+.log-module__data--odd > td {
+    box-shadow: inset 0 0 0 9999px var(--bs-table-striped-bg);
+}
+
+.log-module__data--expanded {
+    display: table-row;
+}

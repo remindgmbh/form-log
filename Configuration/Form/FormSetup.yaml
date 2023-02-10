@@ -1,0 +1,15 @@
+TYPO3:
+  CMS:
+    Form:
+      prototypes:
+        standard:
+          formEditor:
+            translationFiles:
+              1676013338: "EXT:rmnd_form_log/Resources/Private/Language/locallang_form.xlf"
+          formEngine:
+            translationFiles:
+              1676013338: "EXT:rmnd_form_log/Resources/Private/Language/locallang_form.xlf"
+
+imports:
+  - { resource: "./FormElements/Form.yaml" }
+  - { resource: "./Finishers/Log.yaml" }

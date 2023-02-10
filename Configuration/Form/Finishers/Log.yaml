@@ -1,0 +1,13 @@
+TYPO3:
+  CMS:
+    Form:
+      prototypes:
+        standard:
+          finishersDefinition:
+            Log:
+              implementationClassName: Remind\FormLog\Domain\Finishers\LogFinisher
+              formEditor:
+                iconIdentifier: form-finisher
+                label: formEditor.elements.Form.finisher.Log.editor.header.label
+                predefinedDefaults:
+                  options: []

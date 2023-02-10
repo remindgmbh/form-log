@@ -1,0 +1,95 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+    <f:asset.css identifier="log-module-styles" href="EXT:rmnd_form_log/Resources/Public/Css/log-module.css" />
+    <f:asset.script identifier="log-module-scripts" src="EXT:rmnd_form_log/Resources/Public/JavaScript/log-module.js" />
+
+    <h1><f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:header" /></h1>
+
+    <f:if condition="!{formIdentifiers}">
+        <f:then>
+            <div><f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:empty" /></div>
+        </f:then>
+        <f:else>
+            <div class="row row-cols-auto align-items-end g-3 mb-3">
+                <div class="col">
+                    <f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:select_form" />
+                    <select name="changeFormIdentifier" class="form-select"
+                        onchange="window.location.href=this.value">
+                        <f:for each="{formIdentifiers}" as="formIdentifier">
+                            <option {f:if(condition: '{formIdentifier.active}' , then: 'selected' )}
+                                value="{formIdentifier.link}">{formIdentifier.name}</option>
+                        </f:for>
+                    </select>
+                </div>
+            </div>
+        
+            <div class="table-fit log-module__entries">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th><f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:date" /></th>
+                            <f:for each="{headerElements}" as="headerElement">
+                                <th>
+                                    <f:if condition="{headerElement.label}">
+                                        <f:then>{headerElement.label}</f:then>
+                                        <f:else>{headerElement.identifier}</f:else>
+                                    </f:if>
+                                </th>
+                            </f:for>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <f:for each="{entries}" as="entry" iteration="iterator">
+                            <tr id="entry-{iterator.index}" class="log-module__entry {f:if(condition:'{iterator.isEven}', then: 'log-module__entry--even')}">
+                                <td>{entry.crdate}</td>
+                                <f:for each="{headerElements}" as="element" key="identifier">
+                                    <td>{entry.data.{identifier}}</td>
+                                </f:for>
+                            </tr>
+                            <tr id="entry-data-{iterator.index}" class="log-module__data {f:if(condition:'{iterator.isOdd}', then: 'log-module__data--odd')}">
+                                <td colspan="100%">
+                                    <h2 style="margin-top: 0"><f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:data" /></h2>
+                                    <f:for each="{entry.data}" as="value" key="key" iteration="dataIterator">
+                                        <div><b>
+                                            <f:if condition="{elements.{key}.label}">
+                                                <f:then>{elements.{key}.label}</f:then>
+                                                <f:else>{key}</f:else>
+                                            </f:if>
+                                        </b></div>
+                                        <div>{value}</div>
+                                        <f:if condition="!{dataIterator.isLast}">
+                                            <br>
+                                        </f:if>
+                                    </f:for>
+                                    <f:if condition="{entry.finishers}">
+                                        <h2><f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:finishers" /></h2>
+                                        <f:for each="{entry.finishers}" as="finisher" key="finisherIdentifier" iteration="finisherIterator">
+                                            <h3 style="margin-top: 0">{finisherIdentifier}</h3>
+                                            <f:for each="{finisher}" as="finisherOptionValue" key="finisherOptionKey" iteration="finisherOptionIterator">
+                                                <div><b>{finisherOptionKey}</b></div>
+                                                <div>{finisherOptionValue}</div>
+                                                <f:if condition="!{finisherOptionIterator.isLast}">
+                                                    <br>
+                                                </f:if>
+                                            </f:for>
+                                            <f:if condition="!{finisherIterator.isLast}">
+                                                <br>
+                                            </f:if>
+                                        </f:for>
+                                    </f:if>
+                                </td>
+                            </tr>
+                        </f:for>
+                    </tbody>
+                    <caption><f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:entries" arguments="{0: '{totalAmount}'}" /></caption>
+                </table>
+            </div>
+        
+            <f:render partial="SimplePagination" arguments="{paginator:paginator, pagination:pagination, formIdentifier: currentFormIdentifier}" />
+        
+        </f:else>
+    </f:if>
+</f:section>
+
+</html>

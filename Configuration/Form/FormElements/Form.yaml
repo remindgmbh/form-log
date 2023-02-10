@@ -1,0 +1,38 @@
+TYPO3:
+  CMS:
+    Form:
+      prototypes:
+        standard:
+          formElementsDefinition:
+            Form:
+              formEditor:
+                editors:
+                  900:
+                    selectOptions:
+                      1676012003:
+                        value: Log
+                        label: formEditor.elements.Form.editor.finishers.Log.label
+                propertyCollections:
+                  finishers:
+                    1676012003:
+                      identifier: Log
+                      editors:
+                        100:
+                          identifier: header
+                          templateName: Inspector-CollectionElementHeaderEditor
+                          label: formEditor.elements.Form.finisher.Log.editor.header.label
+                        200:
+                          identifier: storagePid
+                          templateName: Inspector-Typo3WinBrowserEditor
+                          label: formEditor.elements.Form.finisher.Log.editor.storagePid.label
+                          buttonLabel: formEditor.elements.Form.finisher.Log.editor.storagePid.button.label
+                          browsableType: pages
+                          iconIdentifier: apps-pagetree-page-default
+                          propertyPath: options.storagePid
+                          propertyValidatorsMode: OR
+                          propertyValidators:
+                            10: NotEmpty
+                            20: FormElementIdentifierWithinCurlyBracesExclusive
+                        9999:
+                          identifier: removeButton
+                          templateName: Inspector-RemoveElementEditor
