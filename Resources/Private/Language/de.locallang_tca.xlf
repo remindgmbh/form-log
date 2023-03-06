@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="EXT:rmnd_form_log/Resources/Private/Language/de.locallang_tca.xlf" product-name="rmnd_form_log">
+        <header/>
+        <body>
+            <trans-unit id="configuration">
+                <target>Log Modul Konfiguration</target>
+            </trans-unit>
+            <trans-unit id="entry">
+                <target>Log Eintrag</target>
+            </trans-unit>
+            <trans-unit id="finisher_data">
+                <target>Finisher Daten</target>
+            </trans-unit>
+            <trans-unit id="form_data">
+                <target>Formular Daten</target>
+            </trans-unit>
+            <trans-unit id="finisher_options">
+                <target>Finisher Optionen</target>
+            </trans-unit>
+            <trans-unit id="form_identifier">
+                <target>Formular ID</target>
+            </trans-unit>
+            <trans-unit id="header_elements">
+                <target>Kopfzeilen Elemente</target>
+            </trans-unit>
+            <trans-unit id="items_per_page">
+                <target>Einträge pro Seite</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
