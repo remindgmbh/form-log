@@ -9,6 +9,9 @@
             <trans-unit id="date">
                 <target>Datum</target>
             </trans-unit>
+            <trans-unit id="download">
+                <target>Download CSV</target>
+            </trans-unit>
             <trans-unit id="entries">
                 <target>%s Einträge</target>
             </trans-unit>

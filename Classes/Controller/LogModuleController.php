@@ -100,6 +100,27 @@ class LogModuleController extends ActionController
         return $this->htmlResponse($moduleTemplate->renderContent());
     }
 
+    public function downloadCsvAction(string $formIdentifier): ResponseInterface
+    {
+        $queryResult = $this->logEntryRepository->findByFormIdentifier($formIdentifier);
+
+        $resource = fopen('php://temp', 'w+');
+
+        foreach ($queryResult as $entry) {
+            $json = json_decode($entry->getFormData(), true);
+            fputcsv($resource, $json);
+        }
+
+        $storagePid = $this->request->getQueryParams()['id'];
+        $filename = join('_', [$formIdentifier, $storagePid, date('YmdHis')]);
+
+        return $this->responseFactory
+            ->createResponse()
+            ->withBody($this->streamFactory->createStreamFromResource($resource))
+            ->withHeader('Content-Type', 'text/csv')
+            ->withHeader('Content-Disposition', 'attachment;filename="' . $filename . '.csv"');
+    }
+
     private function formatLogEntry(LogEntry $logEntry, array $visibleFinishers, array $elements): array
     {
         $entry = [];
@@ -120,7 +141,7 @@ class LogModuleController extends ActionController
 
         foreach ($visibleFinishers as $visibleFinisherIdentifier => $visibleFinisherOptions) {
             foreach ($visibleFinisherOptions as $visibleFinisherOption) {
-                $value = $finishers[$visibleFinisherIdentifier][$visibleFinisherOption];
+                $value = $finishers[$visibleFinisherIdentifier][$visibleFinisherOption] ?? '';
                 $entry['finishers'][$visibleFinisherIdentifier][$visibleFinisherOption] = is_string($value)
                     ? $value
                     : json_encode($value);

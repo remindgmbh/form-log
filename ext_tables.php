@@ -13,7 +13,7 @@ ExtensionUtility::registerModule(
     'logmodule',
     '',
     [
-        LogModuleController::class => 'list',
+        LogModuleController::class => 'list,downloadCsv',
     ],
     [
         'access' => 'user,group',

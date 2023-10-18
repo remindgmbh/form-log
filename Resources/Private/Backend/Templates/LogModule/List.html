@@ -11,7 +11,7 @@
             <div><f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:empty" /></div>
         </f:then>
         <f:else>
-            <div class="row row-cols-auto align-items-end g-3 mb-3">
+            <div class="row row-cols-auto align-items-end justify-content-between g-3 mb-3">
                 <div class="col">
                     <f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:select_form" />
                     <select name="changeFormIdentifier" class="form-select"
@@ -22,8 +22,13 @@
                         </f:for>
                     </select>
                 </div>
+                <div class="col">
+                    <a href="{f:uri.action(action: 'downloadCsv', arguments:{formIdentifier: currentFormIdentifier})}" class="btn btn-default btn-sm">
+                        <f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:download" />
+                    </a>
+                </div>
             </div>
-        
+
             <div class="table-fit log-module__entries">
                 <table class="table table-striped table-hover">
                     <thead>
@@ -49,7 +54,9 @@
                             </tr>
                             <tr id="entry-data-{iterator.index}" class="log-module__data {f:if(condition:'{iterator.isOdd}', then: 'log-module__data--odd')}">
                                 <td colspan="100%">
-                                    <h2 style="margin-top: 0"><f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:data" /></h2>
+                                    <f:if condition="{entry.finishers}">
+                                        <h2 style="margin-top: 0"><f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:data" /></h2>
+                                    </f:if>
                                     <f:for each="{entry.data}" as="value" key="key" iteration="dataIterator">
                                         <div><b>
                                             <f:if condition="{elements.{key}.label}">
@@ -85,9 +92,9 @@
                     <caption><f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:entries" arguments="{0: '{totalAmount}'}" /></caption>
                 </table>
             </div>
-        
+
             <f:render partial="SimplePagination" arguments="{paginator:paginator, pagination:pagination, formIdentifier: currentFormIdentifier}" />
-        
+
         </f:else>
     </f:if>
 </f:section>

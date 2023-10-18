@@ -9,6 +9,9 @@
             <trans-unit id="date">
                 <source>Date</source>
             </trans-unit>
+            <trans-unit id="download">
+                <source>Download CSV</source>
+            </trans-unit>
             <trans-unit id="entries">
                 <source>%s Entries</source>
             </trans-unit>
