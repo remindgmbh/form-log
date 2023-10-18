@@ -2,6 +2,10 @@
     padding: 0.5rem;
 }
 
+.log-module__entry {
+    cursor: pointer;
+}
+
 .log-module__entry--even > td {
     --bs-table-accent-bg: unset !important;
 }
