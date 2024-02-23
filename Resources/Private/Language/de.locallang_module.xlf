@@ -3,9 +3,6 @@
     <file source-language="en" datatype="plaintext" original="EXT:rmnd_form_log/Resources/Private/Language/de.locallang_module.xlf" product-name="rmnd_form_log">
         <header/>
         <body>
-            <trans-unit id="data">
-                <target>Daten</target>
-            </trans-unit>
             <trans-unit id="date">
                 <target>Datum</target>
             </trans-unit>
@@ -14,9 +11,6 @@
             </trans-unit>
             <trans-unit id="entries">
                 <target>%s Einträge</target>
-            </trans-unit>
-            <trans-unit id="finishers">
-                <target>Finisher</target>
             </trans-unit>
             <trans-unit id="header">
                 <target>Form Log</target>

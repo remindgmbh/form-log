@@ -39,8 +39,8 @@ return [
                 'readOnly' => true,
             ],
         ],
-        'finisher_data' => [
-            'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:finisher_data',
+        'additional_data' => [
+            'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:additional_data',
             'config' => [
                 'type' => 'text',
                 'readOnly' => true,
@@ -53,7 +53,7 @@ return [
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
                     form_identifier,
                     form_data,
-                    finisher_data,
+                    additional_data,
             ',
         ],
     ],

@@ -10,7 +10,7 @@ class LogEntry extends AbstractEntity
 {
     protected string $formIdentifier = '';
     protected string $formData = '';
-    protected string $finisherData = '';
+    protected string $additionalData = '';
     protected ?int $crdate = null;
 
     public function getFormIdentifier(): string
@@ -37,15 +37,14 @@ class LogEntry extends AbstractEntity
         return $this;
     }
 
-    public function getFinisherData(): string
+    public function getAdditionalData(): string
     {
-        return $this->finisherData;
+        return $this->additionalData;
     }
 
-    public function setFinisherData(string $finisherData): self
+    public function setAdditionalData(string $additionalData): self
     {
-        $this->finisherData = $finisherData;
-
+        $this->additionalData = $additionalData;
         return $this;
     }
 

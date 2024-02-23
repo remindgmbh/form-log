@@ -39,6 +39,8 @@ class LogModuleController extends ActionController
 
     public function listAction(?string $formIdentifier = null, int $currentPage = 1): ResponseInterface
     {
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+
         $formIdentifiers = $this->getAvailableFormIdentifiers();
 
         $currentFormIdentifier = $formIdentifier ?? $formIdentifiers[0] ?? null;
@@ -56,48 +58,40 @@ class LogModuleController extends ActionController
         if ($currentFormIdentifier) {
             $queryResult = $this->logEntryRepository->findByFormIdentifier($currentFormIdentifier);
             $configuration = $this->configurationRepository->findByFormIdentifier($currentFormIdentifier);
-            $visibleFinishers = GeneralUtility::trimExplode(',', $configuration?->getFinisherOptions() ?? '', true);
-            $visibleFinishers = array_reduce($visibleFinishers, function (array $result, string $finisherOption) {
-                [$key, $value] = GeneralUtility::trimExplode('_', $finisherOption, true);
-                $result[$key][] = $value;
-                return $result;
-            }, []);
             $headerElementsIdentifiers = GeneralUtility::trimExplode(',', $configuration?->getHeaderElements() ?? '');
             $paginator = new QueryResultPaginator($queryResult, $currentPage, $configuration?->getItemsPerPage() ?? 25);
             $pagination = new SimplePagination($paginator);
             $totalAmount = $queryResult->count();
-            $this->view->assign('pagination', $pagination);
-            $this->view->assign('paginator', $paginator);
+            $moduleTemplate->assign('pagination', $pagination);
+            $moduleTemplate->assign('paginator', $paginator);
             $elements = FormUtility::getFormElements($this->formPersistenceManager, $currentFormIdentifier);
-            $this->view->assign('elements', $elements);
+            $moduleTemplate->assign('elements', $elements);
             $headerElements = array_filter($elements, function (array $element) use ($headerElementsIdentifiers) {
                 return in_array($element['identifier'], $headerElementsIdentifiers);
             });
-            $this->view->assign('headerElements', $headerElements);
+            $moduleTemplate->assign('headerElements', $headerElements);
             $paginatedItems = $paginator->getPaginatedItems();
 
             $entries = [];
             foreach ($paginatedItems as $item) {
-                $entries[] = $this->formatLogEntry($item, $visibleFinishers, $elements);
+                $entries[] = $this->formatLogEntry($item, $elements);
             }
 
-            $this->view->assign('entries', $entries);
+            $moduleTemplate->assign('entries', $entries);
         }
 
-        $this->view->assign('currentFormIdentifier', $currentFormIdentifier);
-        $this->view->assign('formIdentifiers', $formIdentifiers);
-        $this->view->assign('totalAmount', $totalAmount);
+        $moduleTemplate->assign('currentFormIdentifier', $currentFormIdentifier);
+        $moduleTemplate->assign('formIdentifiers', $formIdentifiers);
+        $moduleTemplate->assign('totalAmount', $totalAmount);
 
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $moduleTemplate->setTitle(
             $this->getLanguageService()->sL(
                 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:mlang_tabs_tab'
             ),
-            $currentFormIdentifier,
+            $currentFormIdentifier ?? '',
         );
-        $moduleTemplate->setContent($this->view->render());
 
-        return $this->htmlResponse($moduleTemplate->renderContent());
+        return $moduleTemplate->renderResponse();
     }
 
     public function downloadCsvAction(string $formIdentifier): ResponseInterface
@@ -121,32 +115,28 @@ class LogModuleController extends ActionController
             ->withHeader('Content-Disposition', 'attachment;filename="' . $filename . '.csv"');
     }
 
-    private function formatLogEntry(LogEntry $logEntry, array $visibleFinishers, array $elements): array
+    private function formatLogEntry(LogEntry $logEntry, array $elements): array
     {
         $entry = [];
-        $entry['data'] = [];
-        $data = json_decode($logEntry->getFormData(), true);
+        $entry['formData'] = [];
+        $entry['additionalData'] = [];
+        $formData = json_decode($logEntry->getFormData(), true);
+        $additionalData = json_decode($logEntry->getAdditionalData(), true) ?? [];
 
-        foreach ($data as $key => $value) {
+        foreach ($formData as $key => $value) {
             if (in_array($elements[$key]['type'], self::ELEMENTS_WITH_OPTIONS)) {
-                $entry['data'][$key] = $elements[$key]['properties']['options'][$value];
+                $entry['formData'][$key] = $elements[$key]['properties']['options'][$value];
             } else {
-                $entry['data'][$key] = $value;
+                $entry['formData'][$key] = $value;
             }
         }
 
-        $entry['finishers'] = [];
+        foreach ($additionalData as $key => $value) {
+            $entry['additionalData'][$key] = is_string($value) ? $value : json_encode($value);
+        }
+
         $entry['crdate'] = date('Y-m-d H:i:s', $logEntry->getCrdate());
-        $finishers = json_decode($logEntry->getFinisherData(), true);
 
-        foreach ($visibleFinishers as $visibleFinisherIdentifier => $visibleFinisherOptions) {
-            foreach ($visibleFinisherOptions as $visibleFinisherOption) {
-                $value = $finishers[$visibleFinisherIdentifier][$visibleFinisherOption] ?? '';
-                $entry['finishers'][$visibleFinisherIdentifier][$visibleFinisherOption] = is_string($value)
-                    ? $value
-                    : json_encode($value);
-            }
-        }
         return $entry;
     }
 

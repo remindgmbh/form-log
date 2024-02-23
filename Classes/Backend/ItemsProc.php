@@ -25,7 +25,7 @@ class ItemsProc
         $params['items'] = array_map(function (array $form) {
             return [$form['identifier'], $form['identifier']];
         }, $forms);
-        $selectedValues = GeneralUtility::trimExplode(',', $params['row']['form_identifier'], true);
+        $selectedValues = GeneralUtility::trimExplode(',', $params['row']['form_identifier'] ?? '', true);
         $this->getInvalidItems($selectedValues, $params['items']);
     }
 
@@ -41,28 +41,6 @@ class ItemsProc
         }
         $selectedValues = GeneralUtility::trimExplode(',', $params['row']['header_elements'], true);
         $this->getInvalidItems($selectedValues, $params['items']);
-    }
-
-    public function getFinisherOptions(array &$params): void
-    {
-        $formIdentifier = $params['row']['form_identifier'][0] ?? null;
-        if ($formIdentifier) {
-            $formPersistenceManager = $this->getFormPersistenceManager();
-            $formDefinitions = $formPersistenceManager->listForms();
-            $formDefinition = current(array_filter($formDefinitions, function (array $form) use ($formIdentifier) {
-                return $form['identifier'] === $formIdentifier;
-            }));
-            $form = $formPersistenceManager->load($formDefinition['persistenceIdentifier']);
-            foreach ($form['finishers'] as $finisher) {
-                $finisherIdentifier = $finisher['identifier'];
-                if ($finisherIdentifier === 'Log') {
-                    continue;
-                }
-                foreach ($finisher['options'] as $key => $value) {
-                    $params['items'][] = [$finisherIdentifier . ' ' . $key, $finisherIdentifier . '_' . $key];
-                }
-            }
-        }
     }
 
     private function getFormPersistenceManager(): FormPersistenceManagerInterface

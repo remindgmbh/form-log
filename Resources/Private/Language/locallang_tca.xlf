@@ -3,20 +3,17 @@
     <file source-language="en" datatype="plaintext" original="EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf" product-name="rmnd_form_log">
         <header/>
         <body>
+            <trans-unit id="additional_data">
+                <source>Additional Data</source>
+            </trans-unit>
             <trans-unit id="configuration">
                 <source>Log Module Configuration</source>
-            </trans-unit>
-            <trans-unit id="entry">
-                <source>Log Entry</source>
-            </trans-unit>
-            <trans-unit id="finisher_data">
-                <source>Finisher Data</source>
             </trans-unit>
             <trans-unit id="form_data">
                 <source>Form Data</source>
             </trans-unit>
-            <trans-unit id="finisher_options">
-                <source>Finisher Options</source>
+            <trans-unit id="entry">
+                <source>Log Entry</source>
             </trans-unit>
             <trans-unit id="form_identifier">
                 <source>Form Identifier</source>

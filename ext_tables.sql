@@ -1,7 +1,7 @@
 CREATE TABLE tx_formlog_domain_model_logentry (
     form_identifier VARCHAR(255),
     form_data TEXT,
-    finisher_data TEXT,
+    additional_data TEXT,
 );
 
 CREATE TABLE tx_formlog_domain_model_configuration (

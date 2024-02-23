@@ -1,4 +1,4 @@
-<f:layout name="Default" />
+<f:layout name="Module" />
 
 <f:section name="Content">
     <f:asset.css identifier="log-module-styles" href="EXT:rmnd_form_log/Resources/Public/Css/log-module.css" />
@@ -49,15 +49,12 @@
                             <tr id="entry-{iterator.index}" class="log-module__entry {f:if(condition:'{iterator.isEven}', then: 'log-module__entry--even')}">
                                 <td>{entry.crdate}</td>
                                 <f:for each="{headerElements}" as="element" key="identifier">
-                                    <td>{entry.data.{identifier}}</td>
+                                    <td>{entry.formData.{identifier}}</td>
                                 </f:for>
                             </tr>
                             <tr id="entry-data-{iterator.index}" class="log-module__data {f:if(condition:'{iterator.isOdd}', then: 'log-module__data--odd')}">
                                 <td colspan="100%">
-                                    <f:if condition="{entry.finishers}">
-                                        <h2 style="margin-top: 0"><f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:data" /></h2>
-                                    </f:if>
-                                    <f:for each="{entry.data}" as="value" key="key" iteration="dataIterator">
+                                    <f:for each="{entry.formData}" as="value" key="key" iteration="formDataIterator">
                                         <div><b>
                                             <f:if condition="{elements.{key}.label}">
                                                 <f:then>{elements.{key}.label}</f:then>
@@ -65,26 +62,18 @@
                                             </f:if>
                                         </b></div>
                                         <div>{value}</div>
-                                        <f:if condition="!{dataIterator.isLast}">
+                                        <f:if condition="!{formDataIterator.isLast}">
                                             <br>
                                         </f:if>
                                     </f:for>
-                                    <f:if condition="{entry.finishers}">
-                                        <h2><f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:finishers" /></h2>
-                                        <f:for each="{entry.finishers}" as="finisher" key="finisherIdentifier" iteration="finisherIterator">
-                                            <h3 style="margin-top: 0">{finisherIdentifier}</h3>
-                                            <f:for each="{finisher}" as="finisherOptionValue" key="finisherOptionKey" iteration="finisherOptionIterator">
-                                                <div><b>{finisherOptionKey}</b></div>
-                                                <div>{finisherOptionValue}</div>
-                                                <f:if condition="!{finisherOptionIterator.isLast}">
-                                                    <br>
-                                                </f:if>
-                                            </f:for>
-                                            <f:if condition="!{finisherIterator.isLast}">
-                                                <br>
-                                            </f:if>
-                                        </f:for>
-                                    </f:if>
+                                    <br>
+                                    <f:for each="{entry.additionalData}" as="value" key="key" iteration="additionalDataIterator">
+                                        <div><b>{key}</b></div>
+                                        <div>{value}</div>
+                                        <f:if condition="!{additionalDataIterator.isLast}">
+                                            <br>
+                                        </f:if>
+                                    </f:for>
                                 </td>
                             </tr>
                         </f:for>

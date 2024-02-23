@@ -10,7 +10,6 @@ class Configuration extends AbstractEntity
 {
     protected string $formIdentifier = '';
     protected string $headerElements = '';
-    protected string $finisherOptions = '';
     protected int $itemsPerPage = 25;
 
     public function getFormIdentifier(): string
@@ -45,18 +44,6 @@ class Configuration extends AbstractEntity
     public function setItemsPerPage(int $itemsPerPage): self
     {
         $this->itemsPerPage = $itemsPerPage;
-
-        return $this;
-    }
-
-    public function getFinisherOptions(): string
-    {
-        return $this->finisherOptions;
-    }
-
-    public function setFinisherOptions(string $finisherOptions): self
-    {
-        $this->finisherOptions = $finisherOptions;
 
         return $this;
     }

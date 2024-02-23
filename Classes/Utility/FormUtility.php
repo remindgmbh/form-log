@@ -3,11 +3,15 @@
 declare(strict_types=1);
 
 namespace Remind\FormLog\Utility;
+
 use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 
-class FormUtility {
-    public static function getFormElements(FormPersistenceManagerInterface $formPersistenceManager, string $currentFormIdentifier): array
-    {
+class FormUtility
+{
+    public static function getFormElements(
+        FormPersistenceManagerInterface $formPersistenceManager,
+        string $currentFormIdentifier
+    ): array {
         $result = [];
 
         $forms = $formPersistenceManager->listForms();

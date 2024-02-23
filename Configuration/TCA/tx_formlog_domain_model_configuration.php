@@ -1,4 +1,5 @@
 <?php
+
 use Remind\FormLog\Backend\ItemsProc;
 
 return [
@@ -41,14 +42,6 @@ return [
                 'itemsProcFunc' => ItemsProc::class . '->getFormElements',
             ],
         ],
-        'finisher_options' => [
-            'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:finisher_options',
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectMultipleSideBySide',
-                'itemsProcFunc' => ItemsProc::class . '->getFinisherOptions',
-            ],
-        ],
         'items_per_page' => [
             'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:items_per_page',
             'config' => [
@@ -64,7 +57,6 @@ return [
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
                     form_identifier,
                     header_elements,
-                    finisher_options,
                     items_per_page,
             ',
         ],
