@@ -1,51 +1,53 @@
 <?php
 
+declare(strict_types=1);
+
 return [
-    'ctrl' => [
-        'title' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:entry',
-        'label' => 'form_data',
-        'tstamp' => 'tstamp',
-        'crdate' => 'crdate',
-        'origUid' => 't3_origuid',
-        'delete' => 'deleted',
-        'sortby' => 'sorting',
-        'iconfile' => 'EXT:core/Resources/Public/Icons/T3Icons/svgs/content/content-form.svg',
-    ],
     'columns' => [
-        'crdate' => [
-            'label' => 'crdate',
+        'additional_data' => [
             'config' => [
-                'type' => 'passthrough',
-            ],
-        ],
-        'tstamp' => [
-            'label' => 'tstamp',
-            'config' => [
-                'type' => 'passthrough',
-            ],
-        ],
-        'form_identifier' => [
-            'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:form_identifier',
-            'onChange' => 'reload',
-            'config' => [
-                'type' => 'input',
                 'readOnly' => true,
+                'type' => 'text',
             ],
+            'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:additional_data',
+        ],
+        'crdate' => [
+            'config' => [
+                'type' => 'passthrough',
+            ],
+            'label' => 'crdate',
         ],
         'form_data' => [
+            'config' => [
+                'readOnly' => true,
+                'type' => 'text',
+            ],
             'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:form_data',
-            'config' => [
-                'type' => 'text',
-                'readOnly' => true,
-            ],
         ],
-        'additional_data' => [
-            'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:additional_data',
+        'form_identifier' => [
             'config' => [
-                'type' => 'text',
                 'readOnly' => true,
+                'type' => 'input',
             ],
+            'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:form_identifier',
+            'onChange' => 'reload',
         ],
+        'tstamp' => [
+            'config' => [
+                'type' => 'passthrough',
+            ],
+            'label' => 'tstamp',
+        ],
+    ],
+    'ctrl' => [
+        'crdate' => 'crdate',
+        'delete' => 'deleted',
+        'iconfile' => 'EXT:core/Resources/Public/Icons/T3Icons/svgs/content/content-form.svg',
+        'label' => 'form_data',
+        'origUid' => 't3_origuid',
+        'sortby' => 'sorting',
+        'title' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:entry',
+        'tstamp' => 'tstamp',
     ],
     'types' => [
         0 => [

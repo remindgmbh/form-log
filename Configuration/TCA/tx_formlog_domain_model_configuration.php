@@ -1,55 +1,57 @@
 <?php
 
+declare(strict_types=1);
+
 use Remind\FormLog\Backend\ItemsProc;
 
 return [
-    'ctrl' => [
-        'title' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:configuration',
-        'label' => 'form_identifier',
-        'tstamp' => 'tstamp',
-        'crdate' => 'crdate',
-        'origUid' => 't3_origuid',
-        'delete' => 'deleted',
-        'sortby' => 'sorting',
-        'iconfile' => 'EXT:core/Resources/Public/Icons/T3Icons/svgs/module/module-config.svg',
-    ],
     'columns' => [
         'crdate' => [
+            'config' => [
+                'type' => 'passthrough',
+            ],
             'label' => 'crdate',
-            'config' => [
-                'type' => 'passthrough',
-            ],
-        ],
-        'tstamp' => [
-            'label' => 'tstamp',
-            'config' => [
-                'type' => 'passthrough',
-            ],
         ],
         'form_identifier' => [
-            'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:form_identifier',
             'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
                 'itemsProcFunc' => ItemsProc::class . '->getFormIdentifiers',
+                'renderType' => 'selectSingle',
+                'type' => 'select',
             ],
+            'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:form_identifier',
         ],
         'header_elements' => [
-            'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:header_elements',
             'config' => [
-                'type' => 'select',
-                'renderType' => 'selectMultipleSideBySide',
                 'itemsProcFunc' => ItemsProc::class . '->getFormElements',
+                'renderType' => 'selectMultipleSideBySide',
+                'type' => 'select',
             ],
+            'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:header_elements',
         ],
         'items_per_page' => [
-            'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:items_per_page',
             'config' => [
-                'type' => 'input',
-                'eval' => 'int',
                 'default' => 25,
+                'eval' => 'int',
+                'type' => 'input',
             ],
+            'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:items_per_page',
         ],
+        'tstamp' => [
+            'config' => [
+                'type' => 'passthrough',
+            ],
+            'label' => 'tstamp',
+        ],
+    ],
+    'ctrl' => [
+        'crdate' => 'crdate',
+        'delete' => 'deleted',
+        'iconfile' => 'EXT:core/Resources/Public/Icons/T3Icons/svgs/module/module-config.svg',
+        'label' => 'form_identifier',
+        'origUid' => 't3_origuid',
+        'sortby' => 'sorting',
+        'title' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:configuration',
+        'tstamp' => 'tstamp',
     ],
     'types' => [
         0 => [

@@ -8,6 +8,9 @@ use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 
 class FormUtility
 {
+    /**
+     * @return mixed[]
+     */
     public static function getFormElements(
         FormPersistenceManagerInterface $formPersistenceManager,
         string $currentFormIdentifier
@@ -29,6 +32,10 @@ class FormUtility
         return $result;
     }
 
+    /**
+     * @param mixed[] $element
+     * @param mixed[] $result
+     */
     private static function getFormElement(array $element, array &$result): void
     {
 
@@ -38,10 +45,10 @@ class FormUtility
             }
         } else {
             $result[$element['identifier']] = [
-                'type' => $element['type'],
-                'label' => $element['label'],
                 'identifier' => $element['identifier'],
+                'label' => $element['label'],
                 'properties' => $element['properties'] ?? null,
+                'type' => $element['type'],
             ];
         }
     }

@@ -21,7 +21,7 @@ class DeleteLogCommand extends Command
     private const ARGUMENT_DAYS = 'days';
     private const ARGUMENT_STORAGE_PAGES = 'storage-pages';
     private const OPTION_SOFT_DELETE = 'soft-delete';
-    private DataMapper $dataMapper;
+
     private string $tableName;
 
     public function __construct(
@@ -36,7 +36,7 @@ class DeleteLogCommand extends Command
     /**
      * Configure the command by defining the name, options and arguments
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Delete log entries saved in database after specififed amount of days.')
@@ -98,7 +98,7 @@ class DeleteLogCommand extends Command
                 if ($softDelete) {
                     $this->logEntryRepository->remove($entry);
                 } else {
-                    $this->dataHandler->deleteRecord($this->tableName, $entry->getUid(), true, true);
+                    $this->dataHandler->deleteRecord($this->tableName, (int) $entry->getUid(), true, true);
                 }
             }
 

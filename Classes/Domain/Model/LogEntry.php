@@ -9,8 +9,11 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 class LogEntry extends AbstractEntity
 {
     protected string $formIdentifier = '';
+
     protected string $formData = '';
+
     protected string $additionalData = '';
+
     protected ?int $crdate = null;
 
     public function getFormIdentifier(): string
