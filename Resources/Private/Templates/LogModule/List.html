@@ -61,7 +61,16 @@
                                                 <f:else>{key}</f:else>
                                             </f:if>
                                         </b></div>
-                                        <div>{value}</div>
+                                        <f:if condition="{value.0}">
+                                            <f:then>
+                                                <f:for each="{value}" as="arrayValue">
+                                                    <div>{arrayValue}</div>
+                                                </f:for>
+                                            </f:then>
+                                            <f:else>
+                                                <div>{value}</div>
+                                            </f:else>
+                                        </f:if>
                                         <f:if condition="!{formDataIterator.isLast}">
                                             <br>
                                         </f:if>

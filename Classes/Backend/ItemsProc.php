@@ -18,6 +18,9 @@ use TYPO3\CMS\Form\Slot\FilePersistenceSlot;
 
 class ItemsProc
 {
+    /**
+     * @param mixed[] $params
+     */
     public function getFormIdentifiers(array &$params): void
     {
         $formPersistenceManager = $this->getFormPersistenceManager();
@@ -29,6 +32,9 @@ class ItemsProc
         $this->getInvalidItems($selectedValues, $params['items']);
     }
 
+    /**
+     * @param mixed[] $params
+     */
     public function getFormElements(array &$params): void
     {
         $formIdentifier = $params['row']['form_identifier'][0] ?? null;
@@ -62,6 +68,10 @@ class ItemsProc
         );
     }
 
+    /**
+     * @param mixed[] $selectedValues
+     * @param mixed[] $items
+     */
     private function getInvalidItems(array $selectedValues, array &$items): void
     {
         $availableValues = array_map(function (array $item) {

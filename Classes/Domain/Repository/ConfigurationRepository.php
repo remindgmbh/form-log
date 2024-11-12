@@ -8,6 +8,9 @@ use Remind\FormLog\Domain\Model\Configuration;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
+/**
+ * @extends Repository<Configuration>
+ */
 class ConfigurationRepository extends Repository
 {
     public function findByFormIdentifier(string $formIdentifier): ?Configuration

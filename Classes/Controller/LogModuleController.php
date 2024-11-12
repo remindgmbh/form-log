@@ -9,6 +9,7 @@ use Remind\FormLog\Domain\Model\LogEntry;
 use Remind\FormLog\Domain\Repository\ConfigurationRepository;
 use Remind\FormLog\Domain\Repository\LogEntryRepository;
 use Remind\FormLog\Utility\FormUtility;
+use RuntimeException;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Localization\LanguageService;
@@ -47,9 +48,9 @@ class LogModuleController extends ActionController
 
         $formIdentifiers = array_map(function (string $formIdentifier) use ($currentFormIdentifier) {
             return [
-                'name' => $formIdentifier,
-                'link' => $this->uriBuilder->uriFor(null, ['formIdentifier' => $formIdentifier]),
                 'active' => $currentFormIdentifier === $formIdentifier,
+                'link' => $this->uriBuilder->uriFor(null, ['formIdentifier' => $formIdentifier]),
+                'name' => $formIdentifier,
             ];
         }, $formIdentifiers);
 
@@ -100,6 +101,10 @@ class LogModuleController extends ActionController
 
         $resource = fopen('php://temp', 'w+');
 
+        if (!$resource) {
+            throw new RuntimeException('Could not open temporary file handle');
+        }
+
         foreach ($queryResult as $entry) {
             $json = json_decode($entry->getFormData(), true);
             fputcsv($resource, $json);
@@ -115,6 +120,10 @@ class LogModuleController extends ActionController
             ->withHeader('Content-Disposition', 'attachment;filename="' . $filename . '.csv"');
     }
 
+    /**
+     * @param mixed[] $elements
+     * @return mixed[]
+     */
     private function formatLogEntry(LogEntry $logEntry, array $elements): array
     {
         $entry = [];
@@ -124,11 +133,10 @@ class LogModuleController extends ActionController
         $additionalData = json_decode($logEntry->getAdditionalData(), true) ?? [];
 
         foreach ($formData as $key => $value) {
-            if (in_array($elements[$key]['type'], self::ELEMENTS_WITH_OPTIONS)) {
-                $entry['formData'][$key] = $elements[$key]['properties']['options'][$value];
-            } else {
-                $entry['formData'][$key] = $value;
-            }
+            $entry['formData'][$key] =
+                isset($elements[$key]) &&
+                in_array($elements[$key]['type'], self::ELEMENTS_WITH_OPTIONS)
+             ? $elements[$key]['properties']['options'][$value] ?? null : $value;
         }
 
         foreach ($additionalData as $key => $value) {
@@ -159,7 +167,7 @@ class LogModuleController extends ActionController
             ->where(
                 $queryBuilder->expr()->eq('pid', $storagePid)
             );
-        $queryResult = $queryBuilder->execute();
+        $queryResult = $queryBuilder->executeQuery();
         return $queryResult->fetchFirstColumn();
     }
 

@@ -9,7 +9,9 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 class Configuration extends AbstractEntity
 {
     protected string $formIdentifier = '';
+
     protected string $headerElements = '';
+
     protected int $itemsPerPage = 25;
 
     public function getFormIdentifier(): string
