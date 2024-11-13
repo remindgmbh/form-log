@@ -71,9 +71,9 @@ class LogFinisher extends AbstractFinisher
                 $files = is_array($elementValue) ? $elementValue : [$elementValue];
 
                 foreach ($files as $file) {
-                    if (!$file instanceof FileReference) {
+                    if ($file instanceof FileReference) {
                         // Process file path from FileReference
-                        $filePath = $elementValue->getOriginalResource()->getOriginalFile()->getPublicUrl();
+                        $filePath = $file->getOriginalResource()->getOriginalFile()->getPublicUrl();
                         $formData[$element->getIdentifier()][] = $filePath;
                     }
                 }
