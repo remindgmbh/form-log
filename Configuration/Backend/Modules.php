@@ -6,7 +6,7 @@ use Remind\FormLog\Controller\LogModuleController;
 
 return [
       'web_RmndFormLog' => [
-        'access' => 'user,group',
+        'access' => 'user',
         'controllerActions' => [
             LogModuleController::class => [
                 'list', 'downloadCsv',
