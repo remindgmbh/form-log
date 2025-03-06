@@ -10,16 +10,19 @@ use Remind\FormLog\Domain\Repository\ConfigurationRepository;
 use Remind\FormLog\Domain\Repository\LogEntryRepository;
 use Remind\FormLog\Utility\FormUtility;
 use RuntimeException;
+use TYPO3\CMS\Backend\Attribute\AsController;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Pagination\SimplePagination;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface as ExtbaseConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
+use TYPO3\CMS\Form\Mvc\Configuration\ConfigurationManagerInterface as ExtFormConfigurationManagerInterface;
 use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 
+#[AsController]
 class LogModuleController extends ActionController
 {
     private const ELEMENTS_WITH_OPTIONS = [
@@ -35,6 +38,7 @@ class LogModuleController extends ActionController
         private readonly FormPersistenceManagerInterface $formPersistenceManager,
         private readonly ConnectionPool $connectionPool,
         private readonly ModuleTemplateFactory $moduleTemplateFactory,
+        private readonly ExtFormConfigurationManagerInterface $extFormConfigurationManager,
     ) {
     }
 
@@ -65,7 +69,16 @@ class LogModuleController extends ActionController
             $totalAmount = $queryResult->count();
             $moduleTemplate->assign('pagination', $pagination);
             $moduleTemplate->assign('paginator', $paginator);
-            $elements = FormUtility::getFormElements($this->formPersistenceManager, $currentFormIdentifier);
+            $typoScriptSettings = $this->configurationManager->getConfiguration(
+                ExtbaseConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
+                'form'
+            );
+            $formSettings = $this->extFormConfigurationManager->getYamlConfiguration($typoScriptSettings, false);
+            $elements = FormUtility::getFormElements(
+                $this->formPersistenceManager,
+                $formSettings,
+                $currentFormIdentifier
+            );
             $moduleTemplate->assign('elements', $elements);
             $headerElements = array_filter($elements, function (array $element) use ($headerElementsIdentifiers) {
                 return in_array($element['identifier'], $headerElementsIdentifiers);
@@ -92,7 +105,7 @@ class LogModuleController extends ActionController
             $currentFormIdentifier ?? '',
         );
 
-        return $moduleTemplate->renderResponse();
+        return $moduleTemplate->renderResponse('LogModule/List');
     }
 
     public function downloadCsvAction(string $formIdentifier): ResponseInterface
@@ -154,7 +167,7 @@ class LogModuleController extends ActionController
     private function getAvailableFormIdentifiers(): array
     {
         $config = $this->configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+            ExtbaseConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
         );
 
         $storagePid = $config['persistence']['storagePid'] ?? 0;

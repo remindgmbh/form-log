@@ -9,20 +9,22 @@ use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 class FormUtility
 {
     /**
+     * @param mixed[] $formSettings
      * @return mixed[]
      */
     public static function getFormElements(
         FormPersistenceManagerInterface $formPersistenceManager,
+        array $formSettings,
         string $currentFormIdentifier
     ): array {
         $result = [];
 
-        $forms = $formPersistenceManager->listForms();
+        $forms = $formPersistenceManager->listForms($formSettings);
         $formDefinition = current(array_filter($forms, function (array $form) use ($currentFormIdentifier) {
             return $form['identifier'] === $currentFormIdentifier;
         }));
         if ($formDefinition) {
-            $form = $formPersistenceManager->load($formDefinition['persistenceIdentifier']);
+            $form = $formPersistenceManager->load($formDefinition['persistenceIdentifier'], [], []);
 
             foreach ($form['renderables'] as $element) {
                 self::getFormElement($element, $result);

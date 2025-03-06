@@ -31,8 +31,7 @@ return [
         'items_per_page' => [
             'config' => [
                 'default' => 25,
-                'eval' => 'int',
-                'type' => 'input',
+                'type' => 'number',
             ],
             'label' => 'LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_tca.xlf:items_per_page',
         ],
