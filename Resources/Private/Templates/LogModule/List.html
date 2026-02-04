@@ -14,13 +14,13 @@
             <div class="row row-cols-auto align-items-end justify-content-between g-3 mb-3">
                 <div class="col">
                     <f:translate key="LLL:EXT:rmnd_form_log/Resources/Private/Language/locallang_module.xlf:select_form" />
-                    <select name="changeFormIdentifier" class="form-select"
-                        onchange="window.location.href=this.value">
+                    <ul class="form-list">
                         <f:for each="{formIdentifiers}" as="formIdentifier">
-                            <option {f:if(condition: '{formIdentifier.active}' , then: 'selected' )}
-                                value="{formIdentifier.link}">{formIdentifier.name}</option>
+                            <li>
+                                <a href="{formIdentifier.link}">{formIdentifier.name}</a>
+                            </li>
                         </f:for>
-                    </select>
+                    </ul>
                 </div>
                 <div class="col">
                     <a href="{f:uri.action(action: 'downloadCsv', arguments:{formIdentifier: currentFormIdentifier})}" class="btn btn-default btn-sm">
