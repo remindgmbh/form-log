@@ -179,7 +179,8 @@ class LogModuleController extends ActionController
             ->groupBy('form_identifier')
             ->where(
                 $queryBuilder->expr()->eq('pid', $storagePid)
-            );
+            )
+            ->orderBy('form_identifier', 'ASC');
         $queryResult = $queryBuilder->executeQuery();
         return $queryResult->fetchFirstColumn();
     }
